@@ -5,22 +5,17 @@ abstract class DrinkListEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class DrinkListFetched extends DrinkListEvent {}
-
-class SearchDrinks extends DrinkListEvent {
-  SearchDrinks({required this.searchQuery});
-
-  final String searchQuery;
-}
+class GetDrinks extends DrinkListEvent {}
 
 class AddBookmark extends DrinkListEvent {
-  AddBookmark({required this.drinkId});
+  AddBookmark(this.add, {required this.drinkId});
 
   final int drinkId;
+  final bool add;
 }
 
-class RemoveBookmark extends DrinkListEvent {
-  RemoveBookmark({required this.drinkId});
+class SearchUpdated extends DrinkListEvent {
+  SearchUpdated({required this.searchQuery});
 
-  final int drinkId;
+  final String searchQuery;
 }

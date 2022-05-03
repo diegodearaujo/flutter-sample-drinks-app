@@ -1,22 +1,24 @@
 part of 'drink_list_bloc.dart';
 
-enum DrinkListStatus { initial, success, failure }
-
 class DrinkListState extends Equatable {
   const DrinkListState(
-      {this.status = DrinkListStatus.initial,
+      {this.status = Status.loading,
       this.drinks = const <DrinkListItemWithBookmark>[],
-      this.error});
+      this.error,
+      this.searchParameter = emptySearch});
 
-  final DrinkListStatus status;
+  final Status status;
   final List<DrinkListItemWithBookmark> drinks;
   final CustomError? error;
+  final String searchParameter;
 
   DrinkListState copyWith(
-      {DrinkListStatus? status,
+      {Status? status,
       List<DrinkListItemWithBookmark>? drinks,
-      CustomError? error}) {
+      CustomError? error,
+      String? searchParameter}) {
     return DrinkListState(
+        searchParameter: searchParameter ?? this.searchParameter,
         status: status ?? this.status,
         drinks: drinks ?? this.drinks,
         error: error ?? this.error);
