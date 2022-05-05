@@ -4,7 +4,7 @@ import 'package:drinks_flutter_app/domain/usecases/base_use_case.dart';
 
 import '../model/bookmark.dart';
 import '../model/drink_list_item.dart';
-import '../util/resource.dart';
+import '../util/data_result.dart';
 
 class GetDrinkListWithBookmarkUseCase implements BaseInputUseCase<String> {
   final DrinkRepository repository;
@@ -16,7 +16,7 @@ class GetDrinkListWithBookmarkUseCase implements BaseInputUseCase<String> {
   String _lastSearch = "";
 
   @override
-  Future<Resource<List<DrinkListItemWithBookmark>>> execute(
+  Future<DataResult<List<DrinkListItemWithBookmark>>> execute(
       String searchQuery) async {
     if (_allDrinks.isEmpty) {
       _allDrinks = await repository.getDrinkList();
@@ -27,8 +27,7 @@ class GetDrinkListWithBookmarkUseCase implements BaseInputUseCase<String> {
       _searchedDrinks = _searchDrinks(searchQuery);
     }
     final bookmarks = await repository.getBookmarks();
-    return Success<List<DrinkListItemWithBookmark>>(
-        _mergeSearchedDrinksWithBookmarks(bookmarks));
+    return DataResult.success(_mergeSearchedDrinksWithBookmarks(bookmarks));
   }
 
   List<DrinkListItem> _searchDrinks(String searchQuery) {

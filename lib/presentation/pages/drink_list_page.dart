@@ -1,10 +1,10 @@
 import 'package:drinks_flutter_app/data/drink_list_remote_data_source.dart';
 import 'package:drinks_flutter_app/data/drink_list_repository_impl.dart';
+import 'package:drinks_flutter_app/domain/interactors/drink_list_interactor.dart';
 import 'package:drinks_flutter_app/domain/model/drink_list_item_with_bookmark.dart';
 import 'package:drinks_flutter_app/domain/usecases/bookmark_use_case.dart';
-import 'package:drinks_flutter_app/domain/usecases/drink_list_interactor.dart';
 import 'package:drinks_flutter_app/domain/usecases/get_drink_list_with_bookmarks_use_case.dart';
-import 'package:drinks_flutter_app/presentation/pages/utils/constants.dart';
+import 'package:drinks_flutter_app/presentation/pages/drink_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -95,14 +95,25 @@ class DrinkList extends StatelessWidget {
         builder: (context, state) {
           switch (state.status) {
             case Status.failure:
-              return const Center(child: Text('failed to fetch drinks'));
+              return Center(child: Text(state.error?.toString() ?? "Error"));
             case Status.success:
               if (state.drinks.isEmpty) {
                 return const Center(child: Text('no drinks'));
               }
               return ListView.builder(
                 itemBuilder: (BuildContext context, int index) {
-                  return DrinkListItemWidget(drink: state.drinks[index]);
+                  final drink = state.drinks[index];
+                  return DrinkListItemWidget(
+                    drink: drink,
+                    onItemClicked: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DrinkDetailRoute(
+                                drinkId: drink.id, drinkName: drink.name)),
+                      );
+                    },
+                  );
                 },
                 itemCount: state.drinks.length,
               );
@@ -116,9 +127,12 @@ class DrinkList extends StatelessWidget {
 }
 
 class DrinkListItemWidget extends StatelessWidget {
-  const DrinkListItemWidget({Key? key, required this.drink}) : super(key: key);
+  const DrinkListItemWidget(
+      {Key? key, required this.drink, required this.onItemClicked})
+      : super(key: key);
 
   final DrinkListItemWithBookmark drink;
+  final void Function() onItemClicked;
 
   @override
   Widget build(BuildContext context) {
@@ -132,14 +146,15 @@ class DrinkListItemWidget extends StatelessWidget {
           trailing: BookmarkButton(
               isBookmark: drink.bookmark,
               onPressed: () {
-                context
-                    .read<DrinkListBloc>()
-                    .add(AddBookmark(!drink.bookmark, drinkId: drink.id));
+                context.read<DrinkListBloc>().add(DrinkListBookmarkEvent(
+                    add: !drink.bookmark, drinkId: drink.id));
               }),
           title: Text(drink.name),
           subtitle: Text(drink.name),
           dense: false,
-          onTap: () {},
+          onTap: () {
+            onItemClicked();
+          },
         ),
       ),
     );

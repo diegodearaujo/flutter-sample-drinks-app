@@ -1,27 +1,19 @@
 part of 'drink_detail_bloc.dart';
 
-enum DrinkDetailStatus { initial, success, failure }
+class DrinkDetailState extends BaseState {
+  final DrinkDetailWithBookmark? drink;
 
-class DrinkDetailState extends Equatable {
-  const DrinkDetailState({
-    this.status = DrinkDetailStatus.initial,
-    this.drink,
-  });
+  const DrinkDetailState({this.drink, required Status status, Failure? error})
+      : super(status: status, error: error);
 
-  final DrinkDetailStatus status;
-  final DrinkDetail? drink;
-
-  DrinkDetailState copyWith({
-    DrinkDetailStatus? status,
-    DrinkDetail? drink,
-  }) {
+  DrinkDetailState copyWith(
+      {Status? status, DrinkDetailWithBookmark? drink, Failure? error}) {
     return DrinkDetailState(
-      status: status ?? this.status,
-      drink: drink ?? this.drink,
-    );
+        status: status ?? this.status,
+        drink: drink ?? this.drink,
+        error: error ?? this.error);
   }
 
   @override
-  List<Object?> get props => [status, drink];
+  List<Object?> get props => [status, drink, error];
 }
-

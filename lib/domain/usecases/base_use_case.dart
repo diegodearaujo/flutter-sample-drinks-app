@@ -1,9 +1,9 @@
-import '../util/resource.dart';
+import 'package:drinks_flutter_app/domain/util/data_result.dart';
 
 abstract class BaseInputUseCase<Input> {
-  Future<Resource> execute(Input input);
+  Future<DataResult> execute(Input input);
 }
 
 abstract class BaseOutputUseCase {
-  Future<Resource> execute();
+  Future<DataResult> execute();
 }

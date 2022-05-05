@@ -5,10 +5,20 @@ abstract class DrinkDetailEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class DrinkDetailFetched extends DrinkDetailEvent {}
-
-class AddBookmark extends DrinkDetailEvent {
-  AddBookmark({required this.drinkId});
-
+class GetDrinkDetail extends DrinkDetailEvent {
   final int drinkId;
+
+  GetDrinkDetail({
+    required this.drinkId,
+  });
+}
+
+class DrinkDetailBookmarkEvent extends DrinkDetailEvent {
+  final int drinkId;
+  final bool add;
+
+  DrinkDetailBookmarkEvent({
+    required this.drinkId,
+    required this.add,
+  });
 }

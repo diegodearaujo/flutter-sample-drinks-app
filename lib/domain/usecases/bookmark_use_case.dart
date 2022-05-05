@@ -1,7 +1,6 @@
 import 'package:drinks_flutter_app/domain/repository/drink_repository.dart';
 import 'package:drinks_flutter_app/domain/usecases/base_use_case.dart';
-
-import '../util/resource.dart';
+import 'package:drinks_flutter_app/domain/util/data_result.dart';
 
 class AddBookmarkUseCase implements BaseInputUseCase<int> {
   final DrinkRepository drinkRepository;
@@ -9,9 +8,9 @@ class AddBookmarkUseCase implements BaseInputUseCase<int> {
   AddBookmarkUseCase(this.drinkRepository);
 
   @override
-  Future<Resource> execute(int drinkId) async {
+  Future<DataResult<void>> execute(int drinkId) async {
     await drinkRepository.addBookmark(drinkId);
-    return (Success(null));
+    return (DataResult.success(null));
   }
 }
 
@@ -21,8 +20,8 @@ class RemoveBookmarkUseCase implements BaseInputUseCase<int> {
   RemoveBookmarkUseCase(this.drinkRepository);
 
   @override
-  Future<Resource> execute(int drinkId) async {
+  Future<DataResult<void>> execute(int drinkId) async {
     await drinkRepository.removeBookmark(drinkId);
-    return (Success(null));
+    return (DataResult.success(null));
   }
 }

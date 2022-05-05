@@ -1,21 +1,20 @@
 part of 'drink_list_bloc.dart';
 
-class DrinkListState extends Equatable {
+class DrinkListState extends BaseState {
   const DrinkListState(
-      {this.status = Status.loading,
-      this.drinks = const <DrinkListItemWithBookmark>[],
-      this.error,
-      this.searchParameter = emptySearch});
+      {required this.drinks,
+      required this.searchParameter,
+      required Status status,
+      Failure? error})
+      : super(status: status, error: error);
 
-  final Status status;
   final List<DrinkListItemWithBookmark> drinks;
-  final CustomError? error;
   final String searchParameter;
 
   DrinkListState copyWith(
       {Status? status,
       List<DrinkListItemWithBookmark>? drinks,
-      CustomError? error,
+      Failure? error,
       String? searchParameter}) {
     return DrinkListState(
         searchParameter: searchParameter ?? this.searchParameter,
@@ -25,5 +24,5 @@ class DrinkListState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, drinks, error];
+  List<Object?> get props => [status, drinks, searchParameter, error];
 }

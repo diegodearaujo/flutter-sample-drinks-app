@@ -7,11 +7,14 @@ abstract class DrinkListEvent extends Equatable {
 
 class GetDrinks extends DrinkListEvent {}
 
-class AddBookmark extends DrinkListEvent {
-  AddBookmark(this.add, {required this.drinkId});
-
+class DrinkListBookmarkEvent extends DrinkListEvent {
   final int drinkId;
   final bool add;
+
+  DrinkListBookmarkEvent({
+    required this.drinkId,
+    required this.add,
+  });
 }
 
 class SearchUpdated extends DrinkListEvent {

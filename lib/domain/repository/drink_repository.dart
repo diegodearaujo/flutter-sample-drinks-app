@@ -6,7 +6,7 @@ import '../model/drink_list_item.dart';
 abstract class DrinkRepository {
   Future<List<DrinkListItem>> getDrinkList();
 
-  Future<DrinkDetail> getDrinkDetail();
+  Future<DrinkDetail> getDrinkDetail(int drinkId);
 
   Future<List<Bookmark>> getBookmarks();
 
